@@ -87,7 +87,7 @@ $z-layers: (
 		//'tinymce-toolbar': 20, client/components/tinymce/index.jsx
 		'.search': 22,
 		'.community-translator': 99,
-		'.author-selector__popover.popover': 100,
+		'.author-selector__popover.popover__container': 100,
 		'.select-dropdown.is-open .select-dropdown__container': 170,
 		'.accessible-focus .select-dropdown.is-open .select-dropdown__container': 170,
 		'.sites-dropdown.is-open .sites-dropdown__wrapper' : 170,
@@ -105,7 +105,7 @@ $z-layers: (
 		'.customizer-loading-panel__placeholder-change-theme': 999,
 		'.module-overlay': 1000,
 		'.drop-zone': 1000,
-		'.popover': 1000,
+		'.popover__container': 1000,
 		'.sharing-buttons-preview-buttons__more': 1000,
 		'.sortable-list__item.is-draggable.is-active': 1000,
 		'.chart__tooltip': 1000,
