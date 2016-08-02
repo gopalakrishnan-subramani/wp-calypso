@@ -82,13 +82,15 @@ SwitcherShell = React.createClass( {
 					{ this.props.children }
 					<Gridicon ref="authorSelectorChevron" icon="chevron-down" size={ 16 } />
 				</span>
+
 				<Popover
+					id='author-selector-popover'
 					isVisible={ this.state.showAuthorMenu }
 					onClose={ this._onClose }
 					position={ this.props.popoverPosition }
 					context={ this.refs && this.refs.authorSelectorChevron }
 					onKeyDown={ this._onKeyDown }
-					className="author-selector__popover popover">
+					className="author-selector__popover popover__container">
 					{ this.props.fetchOptions.search || users.length > 10 ?
 						<Search
 							onSearch={ this._onSearch }
