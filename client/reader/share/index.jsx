@@ -73,7 +73,9 @@ function buildQuerystringForPost( post ) {
 const ReaderShare = React.createClass( {
 
 	getInitialState() {
-		return { showingMenu: false };
+		return {
+			showingMenu: false
+		};
 	},
 
 	getDefaultProps() {
@@ -91,18 +93,21 @@ const ReaderShare = React.createClass( {
 	},
 
 	_deferMenuChange( showing ) {
-		if ( this._closeHandle ) {
-			clearTimeout( this._closeHandle );
-		}
+		this.setState( { showingMenu: showing } );
 
-		this._closeHandle = defer( () => {
-			this._closeHandle = null;
-			this.setState( { showingMenu: showing } );
-		} );
+		// if ( this._closeHandle ) {
+		// 	clearTimeout( this._closeHandle );
+		// }
+
+		// this._closeHandle = defer( () => {
+		// 	this._closeHandle = null;
+		// 	this.setState( { showingMenu: showing } );
+		// } );
 	},
 
 	toggle( event ) {
 		event.preventDefault();
+
 		if ( ! this.state.showingMenu ) {
 			const target = !! sitesList.getPrimary() ? 'wordpress' : 'external';
 			stats.recordAction( 'open_share' );
@@ -111,6 +116,7 @@ const ReaderShare = React.createClass( {
 				target
 			} );
 		}
+
 		this._deferMenuChange( ! this.state.showingMenu );
 	},
 
@@ -152,14 +158,63 @@ const ReaderShare = React.createClass( {
 		sections.preload( 'post-editor' );
 	},
 
-	render() {
-		const canShareToWordpress = !! sitesList.getPrimary(),
-			buttonClasses = classnames( {
-				'reader-share_button': true,
-				'ignore-click': true,
-				'is-active': this.state.showingMenu
-			} );
+	renderButton() {
+		const buttonClasses = classnames( {
+			'reader-share_button': true,
+			'ignore-click': true,
+			'is-active': this.state.showingMenu
+		} );
 
+		return	(
+			<span
+				key="button"
+				ref="shareButton"
+				className={ buttonClasses }
+			>
+				<Gridicon icon="share" size={ 24 } />
+				<span className="reader-share__button-label">
+					{ this.translate( 'Share', { comment: 'Share the post' } ) }
+				</span>
+			</span>
+		);
+	},
+
+	renderPopover() {
+		const canShareToWordpress = !! sitesList.getPrimary();
+		const context = this.refs && this.refs.shareButton;
+
+		return (
+			this.state.showingMenu && canShareToWordpress
+				? <SitesPopover
+					showDelay={ 2000 }
+					id="popover__share"
+					key="menu"
+					header={ <div>{ this.translate( 'Share on:' ) }</div> }
+					sites={ sitesList }
+					context={ context }
+					visible={ this.state.showingMenu }
+					groups={ true }
+					onSiteSelect={ this.pickSiteToShareTo }
+					onClose={ this.closeMenu }
+					position={ this.props.position }
+					className="is-reader"
+				/>
+				: <PopoverMenu
+						key="menu"
+						context={ context }
+						isVisible={ this.state.showingMenu }
+						onClose={ this.closeExternalShareMenu }
+						position={ this.props.position }
+						className="popover reader-share__popover">
+						<PopoverMenuItem action="twitter" className="reader-share__popover-item">
+							<SocialLogo icon="twitter" /><span>Twitter</span></PopoverMenuItem>
+						<PopoverMenuItem action="facebook" className="reader-share__popover-item">
+							<SocialLogo icon="facebook" /><span>Facebook</span></PopoverMenuItem>
+					</PopoverMenu>
+		);
+	},
+
+	render() {
 		return React.createElement( this.props.tagName, {
 			className: 'reader-share',
 			onClick: this.killClick,
@@ -168,35 +223,8 @@ const ReaderShare = React.createClass( {
 			onMouseEnter: this.preloadEditor,
 			ref: 'shareButton' },
 			[
-				( <span key="button" ref="shareButton" className={ buttonClasses }>
-					<Gridicon icon="share" size={ 24 } />
-					<span className="reader-share__button-label">{ this.translate( 'Share', { comment: 'Share the post' } ) }</span>
-				</span> ),
-				( this.state.showingMenu &&
-						( canShareToWordpress
-						? <SitesPopover
-								key="menu"
-								header={ <div>{ this.translate( 'Share on:' ) }</div> }
-								sites={ sitesList }
-								context={ this.refs && this.refs.shareButton }
-								visible={ this.state.showingMenu }
-								groups={ true }
-								onSiteSelect={ this.pickSiteToShareTo }
-								onClose={ this.closeMenu }
-								position={ this.props.position }
-								className="is-reader"/>
-						: <PopoverMenu key="menu" context={ this.refs && this.refs.shareButton }
-								isVisible={ this.state.showingMenu }
-								onClose={ this.closeExternalShareMenu }
-								position={ this.props.position }
-								className="popover reader-share__popover">
-								<PopoverMenuItem action="twitter" className="reader-share__popover-item">
-									<SocialLogo icon="twitter" /><span>Twitter</span></PopoverMenuItem>
-								<PopoverMenuItem action="facebook" className="reader-share__popover-item">
-									<SocialLogo icon="facebook" /><span>Facebook</span></PopoverMenuItem>
-							</PopoverMenu>
-						)
-					)
+				this.renderButton(),
+				this.renderPopover()
 			]
 		);
 	}
