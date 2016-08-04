@@ -75,7 +75,7 @@ var PopoverCart = React.createClass( {
 	cartContent: function() {
 		if ( ! this.props.pinned ) {
 			return (
-				<Popover className="popover-cart__popover popover"
+				<Popover className="popover-cart__popover popover__container"
 						isVisible={ this.props.visible }
 						position="bottom left"
 						onClose={ this.onClose }
