@@ -85,15 +85,15 @@ const DomainProductPrice = React.createClass( {
 			return <div className="domain-product-price is-placeholder">{ this.translate( 'Loading…' ) }</div>;
 		}
 
-		const showPopOver = abtest( 'domainSuggestionPopover' ) === 'showPopover';
+		const showPopover = abtest( 'domainSuggestionPopover' ) === 'showPopover';
 
 		switch ( this.props.rule ) {
 			case 'FREE_DOMAIN':
-				return showPopOver && this.renderFree();
+				return showPopover && this.renderFree();
 			case 'FREE_WITH_PLAN':
 				return this.renderFreeWithPlan();
 			case 'INCLUDED_IN_PREMIUM':
-				return showPopOver && this.renderIncludedInPremium();
+				return showPopover && this.renderIncludedInPremium();
 			case 'PRICE':
 			default:
 				return this.renderPrice();
