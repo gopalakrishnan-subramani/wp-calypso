@@ -48,6 +48,10 @@ const DomainProductPrice = React.createClass( {
 	},
 
 	renderFree() {
+		if ( abtest( 'domainSuggestionPopover' ) === 'hidePopover' ) {
+			return null;
+		}
+
 		return (
 			<div className="domain-product-price">
 				<span className="domain-product-price__price">{ this.translate( 'Free' ) }</span>
