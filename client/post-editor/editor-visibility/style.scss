@@ -8,7 +8,7 @@
 	}
 }
 
-.editor-visibility__dialog{
+.editor-visibility__dialog {
 	text-align: left;
 	width: 180px;
 	padding: 20px;
@@ -53,9 +53,9 @@
 	}
 }
 
-.popover {
+.popover__container {
 	&.editor-visibility__popover {
 		/* applying a lower z-index to ensure it is layered behind the masterbar */
-		z-index: z-index( 'root', '.popover.editor-visibility__popover' );
+		z-index: z-index( 'root', '.popover__container.editor-visibility__popover' );
 	}
 }
