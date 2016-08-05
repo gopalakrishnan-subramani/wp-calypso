@@ -172,5 +172,21 @@ export default {
 
 	isJetpack( site ) {
 		return site && site.jetpack;
+	},
+
+	/**
+	 * Checks whether a site has a custom mapped URL.
+	 * @param  {Object}   site Site object
+	 * @return {?Boolean} Whether site has custom domain
+	 */
+	hasCustomDomain( site ) {
+		if ( ! site || ! site.URL || site.options.unmapped_url ) {
+			return null;
+		}
+
+		const siteUrl = site.URL.replace( /^https?:\/\//, '' );
+		const siteUnmappedUrl = site.options.unmapped_url.replace( /^https?:\/\//, '' );
+
+		return siteUrl !== siteUnmappedUrl;
 	}
 };
