@@ -95,7 +95,6 @@
 		"me/security/checkup": true,
 		"me/trophies": false,
 		"preview-layout": true,
-		"preview-endpoint": true,
 		"native-customizer": true,
 		"network-connection": true,
 		"notifications2beta": true,
