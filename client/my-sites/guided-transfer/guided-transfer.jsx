@@ -12,7 +12,8 @@ import i18n from 'i18n-calypso';
 import HeaderCake from 'components/header-cake';
 import AccountInfo from './account-info';
 import HostSelect from './host-select';
-import Issues from './issues';
+import IssuesNotices from './issues-notices';
+import TransferUnavailableCard from './transfer-unavailable-card';
 
 const guidedTransferHosts = {
 	bluehost: {
@@ -65,6 +66,8 @@ export default React.createClass( {
 			};
 		} );
 
+		const { siteId, siteSlug } = this.props;
+
 		return (
 			<div className="guided-transfer">
 				<div className="guided-transfer__header-nav">
@@ -76,15 +79,16 @@ export default React.createClass( {
 					</HeaderCake>
 				</div>
 
-				<Issues siteId={ this.props.siteId } />
+				<IssuesNotices siteId={ siteId } siteSlug={ siteSlug } />
 
-				{ this.props.isEligibleForGuidedTransfer &&
-					<div className="guided-transfer__content">
+				{ this.props.isEligibleForGuidedTransfer
+					? <div className="guided-transfer__content">
 						{ hostInfo
 							? <AccountInfo hostInfo={ hostInfo } />
 							: <HostSelect hosts={ hosts } />
 						}
 					</div>
+					: <TransferUnavailableCard siteId={ siteId } siteSlug={ siteSlug } />
 				}
 			</div>
 		);
