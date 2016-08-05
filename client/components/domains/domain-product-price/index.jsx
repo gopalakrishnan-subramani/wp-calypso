@@ -85,10 +85,7 @@ const DomainProductPrice = React.createClass( {
 			return <div className="domain-product-price is-placeholder">{ this.translate( 'Loading…' ) }</div>;
 		}
 
-		let showPopOver = true;
-		if ( abtest( 'domainSuggestionPopover' ) === 'hidePopover' ) {
-			showPopOver = false;
-		}
+		const showPopOver = abtest( 'domainSuggestionPopover' ) === 'showPopover';
 
 		switch ( this.props.rule ) {
 			case 'FREE_DOMAIN':
