@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import PremiumPopover from 'components/plans/premium-popover';
 import { currentUserHasFlag, getCurrentUser } from 'state/current-user/selectors';
 import { DOMAINS_WITH_PLANS_ONLY } from 'state/current-user/constants';
+import { abtest } from 'lib/abtest';
 
 const DomainProductPrice = React.createClass( {
 	propTypes: {
@@ -20,6 +21,7 @@ const DomainProductPrice = React.createClass( {
 		requiresPlan: React.PropTypes.bool,
 		domainsWithPlansOnly: React.PropTypes.bool.isRequired
 	},
+
 	renderFreeWithPlan() {
 		return (
 			<div
@@ -34,6 +36,7 @@ const DomainProductPrice = React.createClass( {
 			</div>
 		);
 	},
+
 	renderFreeWithPlanPrice() {
 		return (
 			<span
@@ -43,6 +46,7 @@ const DomainProductPrice = React.createClass( {
 				} ) }</span>
 		);
 	},
+
 	renderFree() {
 		return (
 			<div className="domain-product-price">
@@ -50,7 +54,12 @@ const DomainProductPrice = React.createClass( {
 			</div>
 		);
 	},
+
 	renderIncludedInPremium() {
+		if ( abtest( 'domainSuggestionPopover' ) === 'hidePopover' ) {
+			return null;
+		}
+
 		return (
 			<div className="domain-product-price is-with-plans-only">
 				<small className="domain-product-price__premium-text" ref="subMessage">
@@ -61,6 +70,7 @@ const DomainProductPrice = React.createClass( {
 			</div>
 		);
 	},
+
 	renderPrice() {
 		return (
 			<div className="domain-product-price">
@@ -73,6 +83,7 @@ const DomainProductPrice = React.createClass( {
 			</div>
 		);
 	},
+
 	render() {
 		if ( this.props.isLoading ) {
 			return <div className="domain-product-price is-placeholder">{ this.translate( 'Loading…' ) }</div>;
@@ -93,8 +104,8 @@ const DomainProductPrice = React.createClass( {
 } );
 
 export default connect(
-	state => ( { domainsWithPlansOnly: getCurrentUser( state ) ?
-		currentUserHasFlag( state, DOMAINS_WITH_PLANS_ONLY ) :
-		true
+	state => ( { domainsWithPlansOnly: getCurrentUser( state )
+		? currentUserHasFlag( state, DOMAINS_WITH_PLANS_ONLY )
+		: true
 	} )
 )( DomainProductPrice );

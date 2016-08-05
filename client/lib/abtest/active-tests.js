@@ -90,5 +90,14 @@ module.exports = {
 		},
 		defaultVariation: 'disabled',
 		allowExistingUsers: false,
-	}
+	},
+	domainSuggestionPopover: {
+		datestamp: '20160805',
+		variations: {
+			showPopover: 80,
+			hidePopover: 20,
+		},
+		defaultVariation: 'showPopover',
+		allowExistingUsers: false,
+	},
 };
